@@ -1,0 +1,45 @@
+// m is the given matrix and n is the order of matrix
+class Solution {
+    public static ArrayList<String> findPath(int[][] m, int n) {
+       
+       ArrayList<String> ans= new ArrayList<>();
+       boolean [][] vis = new boolean [m.length][m[0].length];
+       StringBuilder s = new StringBuilder();
+       s.append("");
+       vis[0][0] = true;
+       dfs(m,0,0,s,ans,vis);
+       
+       return ans;
+    }
+    
+    static void dfs(int [][] m , int row  ,int col,StringBuilder s , ArrayList<String> ans , boolean [] [] vis){
+        
+    if(row < 0 || col < 0 || row >= m.length || col >= m[0].length || m[row][col] == 0 || vis[row][col] == true) return ;
+        
+        
+        if(row == m.length-1 && col == m[0].length-1){
+            ans.add(s.toString());
+            return;
+        }
+        
+        
+        StringBuilder sr = s;
+        StringBuilder sd = s;
+        StringBuilder sl = s;
+        StringBuilder su = s;
+        
+        vis[row][col] = true;
+        
+        sr.append("R");
+        dfs(m,row,col+1,sr,ans,vis);
+        sd.append("D");
+        dfs(m,row+1,col,sd,ans,vis);
+        sl.append("L");
+        dfs(m,row,col-1,sl,ans,vis);
+        su.append("U");
+        dfs(m,row-1,col,su,ans,vis);
+        
+        
+        vis[row][col] = false;
+    }
+}
