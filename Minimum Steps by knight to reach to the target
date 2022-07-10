@@ -1,0 +1,62 @@
+class Pair{
+    int dist;
+    int row , col;
+    
+    Pair(int row , int col , int dist){
+        this.row = row;
+        this.col = col;
+        this.dist = dist;
+        
+    }
+}
+
+class Solution
+{
+    //Function to find out minimum steps Knight needs to reach target position.
+    public int minStepToReachTarget(int KP[], int TP[], int N)
+    {
+    
+    int dx []= { -2, -1, 1, 2, -2, -1, 1, 2 };
+    int dy[] = { -1, -2, -2, -1, 1, 2, 2, 1 };
+        
+        boolean [][] mat = new boolean[N+1][N+1];
+        
+      Queue<Pair> q = new LinkedList<>();
+      int min = Integer.MAX_VALUE;
+      q.add(new Pair(KP[0],KP[1],0));
+      mat[KP[0]][KP[1]] = true;
+      
+      while(!q.isEmpty()){
+          Pair  p = q.poll();
+          
+         if(p.row == TP[0] && p.col == TP[1] ){
+                 
+   
+                  min = p.dist;
+                 }
+                
+          
+          for(int i=0;i<8;i++){
+             int d_x = p.row+dx[i];
+             int d_y = p.col+dy[i];
+             
+             if(isValid(d_x , d_y , N) && mat[d_x][d_y] == false ) {
+                
+                 
+                  mat[d_x][d_y] = true;
+                 
+                 q.add( new Pair(d_x , d_y , 1 + p.dist));
+             }
+          }
+      }
+      
+      
+        return min;
+    
+}
+
+boolean isValid(int x , int y , int n){
+    if(x < 0 || y < 0 || x > n || y > n) return false;
+    return true;
+}
+}
