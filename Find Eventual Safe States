@@ -1,0 +1,52 @@
+class Solution {
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        boolean visited[] = new boolean[graph.length];
+        boolean dfs_cycle[] = new boolean[graph.length];
+        boolean dfs_vis[] = new boolean[graph.length];
+        ArrayList<Integer> ans = new ArrayList<Integer>();
+        
+        for(int i=0;i<graph.length;i++){
+            adj.add(new ArrayList<Integer>());
+            
+            for(int j=0;j<graph[i].length;j++){
+
+                adj.get(i).add(graph[i][j]);
+            
+            }
+        }
+        
+        for(int i=0;i<graph.length;i++){
+            if(visited[i] == false){
+                dfs(adj, visited, dfs_vis, dfs_cycle, i);
+            }
+        }
+        
+        for(int i=0;i<graph.length;i++){
+            if(dfs_cycle[i] == false) ans.add(i);
+        }
+      
+        
+        return ans;
+    }
+    
+    boolean dfs(ArrayList<ArrayList<Integer>> adj, boolean [] vis,  boolean dfs_vis [],  boolean dfs_cycle[], int v ){
+        vis[v] = true;
+        dfs_vis[v] = true;
+        
+        ArrayList<Integer> al = adj.get(v);
+        for(Integer temp: al){
+            if(vis[temp] == false){
+                
+                if(dfs(adj, vis, dfs_vis, dfs_cycle, temp)) return dfs_cycle[v] = true;
+                
+            }else if(vis[temp] == true && dfs_vis[temp] == true){
+                    return dfs_cycle[v] = true;
+            }
+        }
+        
+        dfs_vis[v] = false;
+        return false;
+    }
+}
