@@ -1,0 +1,47 @@
+class Solution {
+    
+    
+    
+     int max =0; // for main ans
+    
+    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+        
+       
+         int ans =0; // for computing purpose
+        
+        // ans is the max time taken by the nodes
+        // making of adjacent list
+ 
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        
+        // adding list in adj
+        for(int i=0;i<n;i++){
+            adj.add(new ArrayList<Integer>());
+        }
+        
+        //adding elements in list
+        int root = 0;
+        for(int i=0;i<n;i++){
+            if(manager[i] == -1){
+                root = i;
+                continue;
+            }
+            adj.get(manager[i]).add(i);
+        }
+        
+        
+        dfs(adj, root, informTime, ans);
+        
+        return max;
+       
+    }
+    
+    void dfs(ArrayList<ArrayList<Integer>> adj, int v, int [] informTime, int ans){
+        
+        max = Math.max(max, ans);
+        for(Integer adjNode : adj.get(v)){
+            dfs(adj, adjNode, informTime, ans+informTime[v]);
+        }
+         
+    }
+}
